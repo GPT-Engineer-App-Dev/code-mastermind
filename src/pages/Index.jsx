@@ -1,7 +1,31 @@
-import { Box, Button, Container, Flex, Heading, HStack, IconButton, Image, Stack, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
+import { Box, Button, Container, Flex, Heading, HStack, IconButton, Image, Stack, Text, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 const Index = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", course: "" });
+
+  const openModal = (course) => {
+    setFormData({ ...formData, course });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleEnroll = () => {
+    // Handle enrollment logic here (e.g., send data to the server)
+    console.log("Enrolled:", formData);
+    closeModal();
+  };
+
   return (
     <Container maxW="container.xl" p={0}>
       {/* Navigation Bar */}
@@ -43,19 +67,19 @@ const Index = () => {
             <Image src="/images/course1.jpg" alt="Course 1" borderRadius="md" mb={4} />
             <Heading size="md" mb={2}>Introduction to Python</Heading>
             <Text mb={4}>Learn the basics of Python programming.</Text>
-            <Button colorScheme="teal">Enroll Now</Button>
+            <Button colorScheme="teal" onClick={() => openModal("Introduction to Python")}>Enroll Now</Button>
           </Box>
           <Box bg="white" p={6} m={4} borderRadius="md" boxShadow="md" maxW="sm">
             <Image src="/images/course2.jpg" alt="Course 2" borderRadius="md" mb={4} />
             <Heading size="md" mb={2}>Web Development Bootcamp</Heading>
             <Text mb={4}>Become a full-stack web developer.</Text>
-            <Button colorScheme="teal">Enroll Now</Button>
+            <Button colorScheme="teal" onClick={() => openModal("Web Development Bootcamp")}>Enroll Now</Button>
           </Box>
           <Box bg="white" p={6} m={4} borderRadius="md" boxShadow="md" maxW="sm">
             <Image src="/images/course3.jpg" alt="Course 3" borderRadius="md" mb={4} />
             <Heading size="md" mb={2}>Data Science with R</Heading>
             <Text mb={4}>Master data analysis and visualization.</Text>
-            <Button colorScheme="teal">Enroll Now</Button>
+            <Button colorScheme="teal" onClick={() => openModal("Data Science with R")}>Enroll Now</Button>
           </Box>
         </Flex>
       </Box>
@@ -90,6 +114,29 @@ const Index = () => {
           </HStack>
         </Flex>
       </Box>
+
+      {/* Enrollment Modal */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Enroll in {formData.course}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl id="name" mb={4}>
+              <FormLabel>Name</FormLabel>
+              <Input type="text" name="name" value={formData.name} onChange={handleInputChange} />
+            </FormControl>
+            <FormControl id="email" mb={4}>
+              <FormLabel>Email</FormLabel>
+              <Input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleEnroll}>Enroll</Button>
+            <Button variant="ghost" onClick={closeModal}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 };
