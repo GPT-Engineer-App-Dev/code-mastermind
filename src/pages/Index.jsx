@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CodeEditor from '../components/CodeEditor';
 import { Box, Button, Container, Flex, Heading, HStack, IconButton, Image, Stack, Text, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
@@ -82,6 +83,12 @@ const Index = () => {
             <Button colorScheme="teal" onClick={() => openModal("Data Science with R")}>Enroll Now</Button>
           </Box>
         </Flex>
+      </Box>
+
+      {/* Code Editor Section */}
+      <Box as="section" p={8}>
+        <Heading size="lg" mb={6} textAlign="center">Code Editor</Heading>
+        <CodeEditor />
       </Box>
 
       {/* Testimonials */}
